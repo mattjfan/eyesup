@@ -8,7 +8,7 @@ const cycle_tolerance = 75; // set number of cycles to wait before sending alert
 const interval_period = 1000; // set time delay
 const chatter_threshold = 45; // max std to accept as 'focused'
 const chatter_tolerance = 45; // extra number of cycles to wait even if chatter is active
-const UI_stale_tolerance = 150; //number of cycles to wait if UI input is stale...
+const UI_stale_tolerance = 300; //number of cycles to wait if UI input is stale...
 dist_buffer_length = 30;
 const dist_buffer  = [];
 let devMode = true;
@@ -48,6 +48,12 @@ const createNotification = (title, message) => {
     }, () => {});
 };
 
+const clearNotifications = () => {
+    chrome.runtime.sendMessage({
+        type: 'clear_notifications'
+    }, () => {});
+};
+
 const update = () => {
     let prediction = null;
     let xp = 0;
@@ -71,7 +77,6 @@ const update = () => {
     if (is_initialized){
         counter++;
         if (devMode) {
-            console.log('hi');
             console.log(`cycle_count: ${counter}    median_delta: ${getMovingMed(dist_buffer)}  std: ${getStd(dist_buffer)}`)
         }
     }
@@ -118,6 +123,7 @@ const setDevMode = (val) => {
 }
 
 const initialize = () => {
+    clearNotifications();
     createNotification('Hello World!', 'Eyesup has initialized! Click around to calibrate.')
     webgazer.begin();
     setDevMode(devMode);

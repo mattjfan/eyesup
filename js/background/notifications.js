@@ -9,8 +9,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 }
             }
         ));
-    } {
+    } else {
         console.log('unrecognized message type')
+        console.log(message);
     }
     sendResponse();
   });
