@@ -1,0 +1,39 @@
+{
+    "name": "eyesup",
+    "manifest_version": 2,
+    "description": "Productivity tool. Uses webcam-based eye-tracking to measure attentiveness and notify users when they get off track.",
+    "version": "1.0",
+    "icons":{"128":"img/logo.png"},
+    "content_scripts":[
+        {
+            "matches": ["<all_urls>"],
+            "js": [
+                "js/jquery.js"
+            ]
+        },
+        {
+            "run_at": "document_end",
+            "matches": ["<all_urls>"],
+            "js": [
+                "js/webgazer.js",
+                "js/eyesup.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "notifications",
+        "contextMenus"
+    ],
+    "browser_action": {
+        "default_title": "eyesup settings",
+        "default_popup": "html/popup.html"
+    },
+    "background": {
+        "scripts": [
+            "js/background/notifications.js",
+            "js/background/menu.js"
+        ],
+        "persistent": false
+    }
+}
